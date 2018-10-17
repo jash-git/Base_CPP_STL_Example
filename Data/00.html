@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/skyfsm/p/6934246.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>C++ STL快速入门 - Madcola - 博客园</title>
+<meta property="og:description" content="在数月之前的机试中第一次体验到STL的威力，因为自己本来一直在用C语言做开发，很多数据结构都是自己造的，比如链表、队列等，第一次接触C++ STL后发现这些数据结构都已经给我提供好了，我直接拿去调用就">
+<link type="text/css" rel="stylesheet" href="./00_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./00_files/bundle-SimpleMemory.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./00_files/bundle-SimpleMemory-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/skyfsm/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/skyfsm/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/skyfsm/wlwmanifest.xml">
+<script src="./00_files/f.txt"></script><script src="./00_files/amp4ads-host-v0.js.下載"></script><script src="./00_files/pubads_impl_rendering_265.js.下載"></script><script async="" src="./00_files/analytics.js.下載"></script><script src="./00_files/jquery-2.2.0.min.js.下載"></script>
+<script type="text/javascript">var currentBlogApp = 'skyfsm', cb_enable_mathjax=true;var isLogined=false;</script>
+<script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'blogpost-body', processEscapes: true },
+        TeX: { 
+            equationNumbers: { autoNumber: ['AMS'], useLabelIds: true }, extensions: ['extpfeil.js'] },
+            'HTML-CSS': { linebreaks: { automatic: true } },
+            SVG: { linebreaks: { automatic: true } }
+        });
+    </script><script src="./00_files/MathJax.js.下載"></script>
+<script src="./00_files/blog-common.js.下載" type="text/javascript"></script>
+<link rel="preload" href="./00_files/f(1).txt" as="script"><script type="text/javascript" src="./00_files/f(1).txt"></script><link rel="preload" href="./00_files/f(2).txt" as="script"><script type="text/javascript" src="./00_files/f(2).txt"></script><script src="./00_files/pubads_impl_265.js.下載" async=""></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-30/html/container.html"></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/skyfsm/"><img id="blogLogo" src="./00_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/skyfsm/">冠军的试炼</a></h1>
+<h2>悟已往之不谏，知来者之可追</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/skyfsm/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Madcola">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/skyfsm/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/skyfsm/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 67&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 489</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/skyfsm/p/6934246.html">C++ STL快速入门</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><p>在数月之前的机试中第一次体验到STL的威力，因为自己本来一直在用C语言做开发，很多数据结构都是自己造的，比如链表、队列等，第一次接触C++ STL后发现这些数据结构都已经给我提供好了，我直接拿去调用就好了，真是超级方便。最近的项目中也遇到了STL一些容器，所以现在自己好好总结一下STL中一些最常用的容器的使用方法，方便自己日后查阅。</p>
+<p>C++ STL中最基本以及最常用的类或容器无非就是以下几个：</p>
+<ul>
+<li>string</li>
+<li>vector</li>
+<li>set</li>
+<li>list</li>
+<li>map</li>
+</ul>
+<p>下面就依次介绍它们，并给出一些最常见的最实用的使用方法，做到快速入门。</p>
+<h1 id="string">string</h1>
+<p>首先看看我们C语言一般怎么使用字符串的</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">char</span>* s1 = <span class="hljs-string">"Hello SYSU!"</span>; <span class="hljs-comment">//创建指针指向字符串常量，这段字符串我们是不能修改的</span>
+
+<span class="hljs-comment">//想要创建 可以修改的字符串，我们可以使用数组分配空间</span>
+<span class="hljs-keyword">char</span> s2[<span class="hljs-number">20</span>] = <span class="hljs-string">"Hello SYSU!"</span>;
+<span class="hljs-comment">//或者这样</span>
+<span class="hljs-keyword">char</span> s3[] = <span class="hljs-string">"Hello SYSU!"</span>;
+
+<span class="hljs-comment">//当然我们也可以动态分配内存</span>
+<span class="hljs-keyword">char</span>* s4 = (<span class="hljs-keyword">char</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-number">20</span>）;
+gets(s4);
+</code></pre>
+<p>C++ 标准库中的string表示可变长的字符串，它在头文件string里面。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span></code></pre>
+<p>用string初始化字符串分两类：用“=”号就是拷贝初始化，否则就是直接初始化。</p>
+<p><img src="./00_files/1093303-20170602170725977-1802373773.png"></p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">string</span> s1;<span class="hljs-comment">//初始化字符串，空字符串</span>
+<span class="hljs-built_in">string</span> s2 = s1; <span class="hljs-comment">//拷贝初始化，深拷贝字符串</span>
+<span class="hljs-built_in">string</span> s3 = <span class="hljs-string">"I am Yasuo"</span>; <span class="hljs-comment">//直接初始化，s3存了字符串</span>
+<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s4</span><span class="hljs-params">(<span class="hljs-number">10</span>, <span class="hljs-string">'a'</span>)</span></span>; <span class="hljs-comment">//s4存的字符串是aaaaaaaaaa</span>
+<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s5</span><span class="hljs-params">(s4)</span></span>; <span class="hljs-comment">//拷贝初始化，深拷贝字符串</span>
+<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s6</span><span class="hljs-params">(<span class="hljs-string">"I am Ali"</span>)</span></span>; <span class="hljs-comment">//直接初始化</span>
+<span class="hljs-built_in">string</span> s7 = <span class="hljs-built_in">string</span>(<span class="hljs-number">6</span>, <span class="hljs-string">'c'</span>); <span class="hljs-comment">//拷贝初始化，cccccc</span></code></pre>
+<p><img src="./00_files/1093303-20170602170743602-467536077.png"></p>
+<pre><code class="hljs cpp">
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">string</span> s1;<span class="hljs-comment">//初始化字符串，空字符串</span>
+    <span class="hljs-built_in">string</span> s2 = s1; <span class="hljs-comment">//拷贝初始化，深拷贝字符串</span>
+    <span class="hljs-built_in">string</span> s3 = <span class="hljs-string">"I am Yasuo"</span>; <span class="hljs-comment">//直接初始化，s3存了字符串</span>
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s4</span><span class="hljs-params">(<span class="hljs-number">10</span>, <span class="hljs-string">'a'</span>)</span></span>; <span class="hljs-comment">//s4存的字符串是aaaaaaaaaa</span>
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s5</span><span class="hljs-params">(s4)</span></span>; <span class="hljs-comment">//拷贝初始化，深拷贝字符串</span>
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s6</span><span class="hljs-params">(<span class="hljs-string">"I am Ali"</span>)</span></span>; <span class="hljs-comment">//直接初始化</span>
+    <span class="hljs-built_in">string</span> s7 = <span class="hljs-built_in">string</span>(<span class="hljs-number">6</span>, <span class="hljs-string">'c'</span>); <span class="hljs-comment">//拷贝初始化，cccccc</span>
+
+    <span class="hljs-comment">//string的各种操作</span>
+    <span class="hljs-built_in">string</span> s8 = s3 + s6;<span class="hljs-comment">//将两个字符串合并成一个</span>
+    s3 = s6;<span class="hljs-comment">//用一个字符串来替代另一个字符串的对用元素</span>
+
+    <span class="hljs-built_in">cin</span> &gt;&gt; s1;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; s1 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s2 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s3 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s4 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s5 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s6 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s7 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; s8 &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"s7 size = "</span> &lt;&lt; s7.size() &lt;&lt; <span class="hljs-built_in">endl</span>; <span class="hljs-comment">//字符串长度，不包括结束符</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; (s2.empty() ? <span class="hljs-string">"This string is empty"</span> : <span class="hljs-string">"This string is not empty"</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;;
+
+    system(<span class="hljs-string">"pause"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre>
+<p><img src="./00_files/1093303-20170602170758758-2074743989.png"></p>
+<h3 id="string的io操作">string的IO操作</h3>
+<p>使用cin读入字符串时，遇到空白就停止读取。比如程序输入的是</p>
+<pre><code class="hljs javascript"><span class="hljs-string">"     Hello   World"</span></code></pre>
+<p>那么我们得到的字符串将是"Hello"，前面的空白没了，后面的world也读不出来。</p>
+<p>如果我们想把整个hello world读进来怎么办？那就这样做</p>
+<pre><code class="hljs ruby">cin<span class="hljs-meta">&gt;&gt;</span>s1&gt;&gt;s2;</code></pre>
+<p>hello存在s1里，world存在s2里了。</p>
+<p>有时我们想把一个句子存下来，又不想像上面那样创建多个string来存储单词，怎么办？</p>
+<p>那就是用getline来获取一整行内容。</p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">string</span> str;
+getline(<span class="hljs-built_in">cin</span>, str);
+<span class="hljs-built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="hljs-built_in">endl</span>;</code></pre>
+<p>当把string对象和字符面值及字符串面值混在一条语句中使用时，必须确保+的两侧的运算对象至少有一个是string</p>
+<pre><code class="hljs go"><span class="hljs-keyword">string</span> s1 = s2 + <span class="hljs-string">", "</span>; <span class="hljs-comment">//正确</span>
+<span class="hljs-keyword">string</span> s3 = <span class="hljs-string">"s "</span> + <span class="hljs-string">", "</span>; <span class="hljs-comment">//错误</span>
+<span class="hljs-keyword">string</span> s4 = <span class="hljs-string">"hello"</span> + <span class="hljs-string">", "</span> + s1; <span class="hljs-comment">//错误</span>
+<span class="hljs-keyword">string</span> s5 = s1 + <span class="hljs-string">"hello "</span> + <span class="hljs-string">", "</span>; <span class="hljs-comment">//改一下顺序，s1放前头，正确了，注意理解=号右边的运算顺序</span></code></pre>
+<h3 id="处理string中的字符">处理string中的字符</h3>
+<p>访问字符串的每个字符</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; s3.size(); i++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; s3[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    s3[i] = <span class="hljs-string">'s'</span>;
+}</code></pre>
+<p>在C语言中我都是用下标或者指针来访问数组元素，而在C++里，有个新奇的东西叫做迭代器iterator，我们可以使用它来访问容器元素。</p>
+<p><img src="./00_files/1093303-20170602170813805-608759904.png"></p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">str</span><span class="hljs-params">(<span class="hljs-string">"hi sysu"</span>)</span></span>;
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">string</span>::iterator it = str.begin(); it != str.end(); it++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; *it &lt;&lt; <span class="hljs-built_in">endl</span>;
+}</code></pre>
+<p>我们也可以是使用const_iterator使得访问元素时是能读不能写，这跟常量指针意思差不多。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">str2</span><span class="hljs-params">(<span class="hljs-string">"hi sysu"</span>)</span></span>;
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">string</span>::const_iterator it = str2.begin(); it != str2.end(); it++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; *it &lt;&lt; <span class="hljs-built_in">endl</span>;
+    *it = <span class="hljs-string">'l'</span>; <span class="hljs-comment">//这是错误的，不能写</span>
+}</code></pre>
+<p><img src="./00_files/1093303-20170602170831649-461472172.png"></p>
+<p>string还有一些很好用的函数，比如找子串</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">sq</span><span class="hljs-params">(<span class="hljs-string">"heoolo sdaa ss"</span>)</span></span>;
+<span class="hljs-built_in">cout</span> &lt;&lt; s.find(<span class="hljs-string">"aa"</span>, <span class="hljs-number">0</span>) &lt;&lt; <span class="hljs-built_in">endl</span>; <span class="hljs-comment">//返回的是子串位置。第二个参数是查找的起始位置，如果找不到，就返回string::npos</span>
+<span class="hljs-keyword">if</span> (s.find(<span class="hljs-string">"aa1"</span>, <span class="hljs-number">0</span>) == <span class="hljs-built_in">string</span>::npos)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"找不到该子串！"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}</code></pre>
+<h1 id="vector">vector</h1>
+<p>C++ STL中的verctor好比是C语言中的数组，但是vector又具有数组没有的一些高级功能。与数组相比，vector就是一个可以不用再初始化就必须制定大小的边长数组，当然了，它还有许多高级功能。</p>
+<p>要想用vector首先得包含头文件vector。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span></code></pre>
+<p>怎么初始化？</p>
+<p><img src="./00_files/1093303-20170602170846961-452229016.png"></p>
+<p>如果vector的元素类型是int，默认初始化为0；如果vector元素类型为string，则默认初始化为空字符串。</p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v1;
+<span class="hljs-built_in">vector</span>&lt;father&gt; v2;
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v3;
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &gt;;  <span class="hljs-comment">//注意空格。这里相当于二维数组int a[n][n];</span>
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v5 = { <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span> }; <span class="hljs-comment">//列表初始化,注意使用的是花括号</span>
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v6 = { <span class="hljs-string">"hi"</span>,<span class="hljs-string">"my"</span>,<span class="hljs-string">"name"</span>,<span class="hljs-string">"is"</span>,<span class="hljs-string">"lee"</span> };
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v7(<span class="hljs-number">5</span>, <span class="hljs-number">-1</span>); <span class="hljs-comment">//初始化为-1,-1,-1,-1,-1。第一个参数是数目，第二个参数是要初始化的值</span>
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v8(<span class="hljs-number">3</span>, <span class="hljs-string">"hi"</span>);
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v9(<span class="hljs-number">10</span>); <span class="hljs-comment">//默认初始化为0</span>
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v10(<span class="hljs-number">4</span>); <span class="hljs-comment">//默认初始化为空字符串</span></code></pre>
+<p>如何向vector添加元素？</p>
+<p>请使用push_back加入元素，并且这个元素是被加在数组尾部的。</p>
+<pre><code class="hljs go"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++)
+{
+    v1.push_back(i);
+}</code></pre>
+<p>vector其他的操作</p>
+<p><img src="./00_files/1093303-20170602170900399-1317226831.png"></p>
+<p>访问和操作vector中的每个元素</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; v1.size(); i++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; v1[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    v1[i] = <span class="hljs-number">100</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; v1[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+}</code></pre>
+<p>注意：只能对已存在的元素进行赋值或者修改操作，如果是要加入新元素，务必使用push_back。push_back的作用有两个：告诉编译器为新元素开辟空间、将新元素存入新空间里。</p>
+<p>比如下面的代码是错误的，但是编译器不会报错，就像是数组越界。</p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; vec;
+vec[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;  <span class="hljs-comment">//错误！</span></code></pre>
+<p>当然我们也可以选择使用迭代器来访问元素</p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v6 = { <span class="hljs-string">"hi"</span>,<span class="hljs-string">"my"</span>,<span class="hljs-string">"name"</span>,<span class="hljs-string">"is"</span>,<span class="hljs-string">"lee"</span> };
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;::iterator iter = v6.begin(); iter != v6.end(); iter++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; *iter &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-comment">//下面两种方法都行</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; (*iter).empty() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; iter-&gt;empty() &lt;&lt; <span class="hljs-built_in">endl</span>; 
+}</code></pre>
+<p>上面是正向迭代，如果我们想从后往前迭代该如何操作？<br>
+使用反向迭代器</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;::reverse_iterator iter = v6.rbegin(); iter != v6.rend(); iter++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; *iter &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+}</code></pre>
+<p>vector最常用的增删操作</p>
+<p><img src="./00_files/1093303-20170602170914508-1325887310.png"></p>
+<pre><code class="hljs http">
+
+<span class="cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showvector</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;T&gt; v)</span>
+</span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">vector</span>&lt;T&gt;::iterator it = v.begin(); it != v.end(); it++)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; *it;
+    }
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v6 = { <span class="hljs-string">"hi"</span>,<span class="hljs-string">"my"</span>,<span class="hljs-string">"name"</span>,<span class="hljs-string">"is"</span>,<span class="hljs-string">"lee"</span> };
+    v6.resize(<span class="hljs-number">3</span>);  <span class="hljs-comment">//重新调整vector容量大小</span>
+    showvector(v6);
+
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v5 = { <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span> }; <span class="hljs-comment">//列表初始化,注意使用的是花括号</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; v5.front() &lt;&lt; <span class="hljs-built_in">endl</span>; <span class="hljs-comment">//访问第一个元素</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; v5.back() &lt;&lt; <span class="hljs-built_in">endl</span>; <span class="hljs-comment">//访问最后一个元素</span>
+
+    showvector(v5);
+    v5.pop_back(); <span class="hljs-comment">//删除最后一个元素</span>
+    showvector(v5);
+    v5.push_back(<span class="hljs-number">6</span>); <span class="hljs-comment">//加入一个元素并把它放在最后</span>
+    showvector(v5);
+    v5.insert(v5.begin()+<span class="hljs-number">1</span>,<span class="hljs-number">9</span>); <span class="hljs-comment">//在第二个位置插入新元素</span>
+    showvector(v5);
+    v5.erase(v5.begin() + <span class="hljs-number">3</span>);  <span class="hljs-comment">//删除第四个元素</span>
+    showvector(v5);
+    v5.insert(v5.begin() + <span class="hljs-number">1</span>, <span class="hljs-number">7</span>,<span class="hljs-number">8</span>); <span class="hljs-comment">//连续插入7个8</span>
+    showvector(v5);
+    v5.clear(); <span class="hljs-comment">//清除所有内容</span>
+    showvector(v5);
+
+    system(<span class="hljs-string">"pause"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+} </span></code></pre>
+<p><img src="./00_files/1093303-20170602170927321-678572314.png"></p>
+<p>注意：虽然vertor对象可以动态增长，但是也或有一点副作用：已知的一个限制就是不能再范围for循环中向vector对象添加元素。另外一个限制就是任何一种可能改变vector对象容量的操作，不如push_back，都会使该迭代器失效。</p>
+<p>总而言之就是：但凡使用了迭代器的循环体，都不要向迭代器所属的容器添加元素！</p>
+<p>C++中push_back和insert两个有什么区别?</p>
+<p>顾名思义push_back把元素插入容器末尾，insert把元素插入任何你指定的位置。<br>
+不过push_back速度一般比insert快。如果能用push_back尽量先用push_back。</p>
+<h1 id="set">set</h1>
+<p>set跟vector差不多，它跟vector的唯一区别就是，set里面的元素是有序的且唯一的，只要你往set里添加元素，它就会自动排序，而且，如果你添加的元素set里面本来就存在，那么这次添加操作就不执行。要想用set先加个头文件set。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;set&gt;</span></span></code></pre>
+<pre><code class="hljs cpp">
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;set&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showset</span><span class="hljs-params">(<span class="hljs-built_in">set</span>&lt;T&gt; v)</span>
+</span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">set</span>&lt;T&gt;::iterator it = v.begin(); it != v.end(); it++)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; *it;
+    }
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; s1{<span class="hljs-number">9</span>,<span class="hljs-number">8</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span> }; <span class="hljs-comment">//自动排序，从小到大,剔除相同项</span>
+    showset(s1);
+    <span class="hljs-built_in">set</span>&lt;<span class="hljs-built_in">string</span>&gt; s2{ <span class="hljs-string">"hello"</span>,<span class="hljs-string">"sysy"</span>,<span class="hljs-string">"school"</span>,<span class="hljs-string">"hello"</span> }; <span class="hljs-comment">//字典序排序</span>
+    showset(s2);
+    s1.insert(<span class="hljs-number">9</span>); <span class="hljs-comment">//有这个值了，do nothing</span>
+    showset(s1);
+    s2.insert(<span class="hljs-string">"aaa"</span>); <span class="hljs-comment">//没有这个字符串，添加并且排序</span>
+    showset(s2);
+    
+    system(<span class="hljs-string">"pause"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+} </code></pre>
+<p><img src="./00_files/1093303-20170602170939664-2054900441.png"></p>
+<h1 id="list">list</h1>
+<p>list就是链表，在C语言中我们想使用链表都是自己去实现的，实现起来倒不难，但是如果有现成的高效的链表可以使用的话，我们就不需要重复造轮子了。STL就提供了list容器给我们。</p>
+<p>list是一个双向链表，而单链表对应的容器则是foward_list。</p>
+<p>list即双向链表的优点是插入和删除元素都比较快捷，缺点是不能随机访问元素。</p>
+<p>初始化方式就大同小异了，跟vector基本一样。要想用list先加个头文件list。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;list&gt;</span></span></code></pre>
+<pre><code class="hljs cpp">
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;list&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showlist</span><span class="hljs-params">(<span class="hljs-built_in">list</span>&lt;T&gt; v)</span>
+</span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">list</span>&lt;T&gt;::iterator it = v.begin(); it != v.end(); it++)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; *it;
+    }
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt; l1{ <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span> };
+    showlist(l1);
+    <span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">double</span>&gt; l2;
+    <span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">char</span>&gt; l3(<span class="hljs-number">10</span>);
+    <span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt; l4(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>); <span class="hljs-comment">//将元素都初始化为10</span>
+    showlist(l4);
+
+    
+    system(<span class="hljs-string">"pause"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+} </code></pre>
+<p><img src="./00_files/1093303-20170602170954446-909787830.png"></p>
+<p>值得注意的是，list容器不能调用algorithm下的sort函数进行排序，因为sort函数要求容器必须可以随机存储，而list做不到。所以，list自己做了一个自己用的排序函数，用法如下：</p>
+<pre><code class="hljs cpp"><span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt; l1{ <span class="hljs-number">8</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span> };
+l1.sort();</code></pre>
+<h1 id="map">map</h1>
+<p>map运用了哈希表地址映射的思想，也就是key-value的思想，来实现的。</p>
+<p>首先给出map最好用也最最常用的用法例子，就是用字符串作为key去查询操作对应的value。</p>
+<p>要使用map得先加个头文件map。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;map&gt;</span></span></code></pre>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;map&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showmap</span><span class="hljs-params">(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt; v)</span>
+</span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::iterator it = v.begin(); it != v.end(); it++)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="hljs-string">"  "</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="hljs-built_in">endl</span>;  <span class="hljs-comment">//注意用法，不是用*it来访问了。first表示的是key，second存的是value</span>
+    }
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt; m1; <span class="hljs-comment">//&lt;&gt;里的第一个参数表示key的类型,第二个参数表示value的类型</span>
+    m1[<span class="hljs-string">"Kobe"</span>] = <span class="hljs-number">100</span>;
+    m1[<span class="hljs-string">"James"</span>] = <span class="hljs-number">99</span>;
+    m1[<span class="hljs-string">"Curry"</span>] = <span class="hljs-number">98</span>;
+
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s</span><span class="hljs-params">(<span class="hljs-string">"Jordan"</span>)</span></span>;
+    m1[s] = <span class="hljs-number">90</span>;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; m1[<span class="hljs-string">"Kobe"</span>] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; m1[<span class="hljs-string">"Jordan"</span>] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; m1[<span class="hljs-string">"Durant"</span>] &lt;&lt; <span class="hljs-built_in">endl</span>; <span class="hljs-comment">//不存在这个key，就显示0</span>
+
+    m1.erase(<span class="hljs-string">"Curry"</span>);<span class="hljs-comment">//通过关键字来删除</span>
+    showmap(m1);
+    m1.insert(pair&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;(<span class="hljs-string">"Harris"</span>, <span class="hljs-number">89</span>)); <span class="hljs-comment">//也可以通过insert函数来实现增加元素</span>
+    showmap(m1);
+    m1.clear(); <span class="hljs-comment">//清空全部</span>
+
+
+    system(<span class="hljs-string">"pause"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre>
+<p><img src="./00_files/1093303-20170602171006649-580201339.png"></p>
+<p>如果想看看某个存不存在某个key，可以用count来判断</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (m1.count(<span class="hljs-string">"Lee"</span>))
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Lee is in m1!"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}
+<span class="hljs-keyword">else</span>
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Lee do not exist!"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}</code></pre>
+<p>用迭代器来访问元素</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::iterator it = m1.begin(); it != m1.end(); it++)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; it-&gt;first&lt;&lt;<span class="hljs-string">"  "</span>&lt;&lt;it-&gt;second &lt;&lt; <span class="hljs-built_in">endl</span>;  <span class="hljs-comment">//注意用法，不是用*it来访问了。first表示的是key，second存的是value</span>
+}</code></pre>
+</div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/skyfsm/category/1074227.html" target="_blank">STL</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6934246,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;0615e00a-49d6-e611-845c-ac853d9f53ac&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./00_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./00_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/skyfsm/" target="_blank"><img src="./00_files/20170109193150.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/skyfsm/">Madcola</a><br>
+            <a href="http://home.cnblogs.com/u/skyfsm/followees">关注 - 26</a><br>
+            <a href="http://home.cnblogs.com/u/skyfsm/followers">粉丝 - 652</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;0615e00a-49d6-e611-845c-ac853d9f53ac&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6934246,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">4</span>
+    </div>
+    <div class="buryit" onclick="votePost(6934246,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/skyfsm/p/6902524.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/skyfsm/p/6902524.html" title="发布于2017-05-25 10:46">OpenCV探索之路（十六）：图像矫正技术深入探讨</a><br><a href="https://www.cnblogs.com/skyfsm/p/7071386.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/skyfsm/p/7071386.html" title="发布于2017-06-23 19:09">Linux编程之有限状态机FSM的理解与实现</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-06-02 17:10</span> <a href="https://www.cnblogs.com/skyfsm/">Madcola</a> 阅读(<span id="post_view_count">18475</span>) 评论(<span id="post_comment_count">10</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6934246" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/skyfsm/p/6934246.html#" onclick="AddToWz(6934246);return false;">收藏</a></div>
+	</div>
+	<script src="./00_files/highlight.min.js.下載"></script><script>markdown_highlight();</script><script type="text/javascript">var allowComments=true,cb_blogId=327280,cb_entryId=6934246,cb_blogApp=currentBlogApp,cb_blogUserGuid='0615e00a-49d6-e611-845c-ac853d9f53ac',cb_entryCreatedDate='2017/6/2 17:10:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#3927434" class="layer">#1楼</a><a name="3927434" id="comment_anchor_3927434"></a>  <span class="comment_date">2018-03-19 15:44</span> <a id="a_comment_author_3927434" href="https://www.cnblogs.com/yinbiao/" target="_blank">Y先森0.0</a> <a href="http://msg.cnblogs.com/send/Y%E5%85%88%E6%A3%AE0.0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3927434" class="blog_comment_body">谢谢，写的不错</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3927434,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3927434,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3927434_avatar" style="display:none;">http://pic.cnblogs.com/face/1301290/20180327211847.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#3947653" class="layer">#2楼</a><a name="3947653" id="comment_anchor_3947653"></a>  <span class="comment_date">2018-04-10 13:52</span> <a id="a_comment_author_3947653" href="https://www.cnblogs.com/huang-lei/" target="_blank">huang_lei</a> <a href="http://msg.cnblogs.com/send/huang_lei" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3947653" class="blog_comment_body">谢谢，很容易理解了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3947653,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3947653,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#3970445" class="layer">#3楼</a><a name="3970445" id="comment_anchor_3970445"></a>  <span class="comment_date">2018-05-09 06:38</span> <a id="a_comment_author_3970445" href="https://www.cnblogs.com/ZincSabian/" target="_blank">ZincSabian</a> <a href="http://msg.cnblogs.com/send/ZincSabian" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3970445" class="blog_comment_body">感谢，作为一个刚从pascal--&gt;C++的菜鸡，stl一直是个大锅pwp</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3970445,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3970445,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3970445_avatar" style="display:none;">http://pic.cnblogs.com/face/930163/20171015144427.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4024852" class="layer">#4楼</a><a name="4024852" id="comment_anchor_4024852"></a>  <span class="comment_date">2018-07-20 13:06</span> <a id="a_comment_author_4024852" href="https://www.cnblogs.com/wozho/" target="_blank">黄zzzz</a> <a href="http://msg.cnblogs.com/send/%E9%BB%84zzzz" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4024852" class="blog_comment_body">学习的时候没认真学STL，今年毕业了干了几个月前端觉得工作不是很喜欢，又想重新捡起当初学的C++换个工作，SYSU学子共勉吧</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4024852,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4024852,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4027556" class="layer">#5楼</a><a name="4027556" id="comment_anchor_4027556"></a>  <span class="comment_date">2018-07-24 14:13</span> <a id="a_comment_author_4027556" href="http://home.cnblogs.com/u/1426631/" target="_blank">云中之君</a> <a href="http://msg.cnblogs.com/send/%E4%BA%91%E4%B8%AD%E4%B9%8B%E5%90%9B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4027556" class="blog_comment_body"><a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4024852" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,4024852);">@</a>
+黄zzzz<br>与君共勉</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4027556,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4027556,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4033030" class="layer">#6楼</a><a name="4033030" id="comment_anchor_4033030"></a>  <span class="comment_date">2018-08-01 09:56</span> <a id="a_comment_author_4033030" href="http://home.cnblogs.com/u/1453547/" target="_blank">gvanni</a> <a href="http://msg.cnblogs.com/send/gvanni" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4033030" class="blog_comment_body">你好 这篇博客中的图片是来自哪本书咩？之前看过电子版 想不起来书名了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4033030,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4033030,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4033045" class="layer">#7楼</a><a name="4033045" id="comment_anchor_4033045"></a>  <span class="comment_date">2018-08-01 10:03</span> <a id="a_comment_author_4033045" href="http://home.cnblogs.com/u/1453547/" target="_blank">gvanni</a> <a href="http://msg.cnblogs.com/send/gvanni" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4033045" class="blog_comment_body">急求急求啊~~~麻烦回复一个咯~~~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4033045,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4033045,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4039640" class="layer">#8楼</a><a name="4039640" id="comment_anchor_4039640"></a>  <span class="comment_date">2018-08-10 00:49</span> <a id="a_comment_author_4039640" href="http://home.cnblogs.com/u/1458407/" target="_blank">大母鸡翅膀</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A7%E6%AF%8D%E9%B8%A1%E7%BF%85%E8%86%80" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4039640" class="blog_comment_body"><a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4033045" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,4033045);">@</a>
+gvanni<br>好像是C++标准库</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4039640,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4039640,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4075119" class="layer">#9楼</a><a name="4075119" id="comment_anchor_4075119"></a>  <span class="comment_date">2018-09-24 21:54</span> <a id="a_comment_author_4075119" href="http://home.cnblogs.com/u/790899/" target="_blank">eddiechiu</a> <a href="http://msg.cnblogs.com/send/eddiechiu" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4075119" class="blog_comment_body">set&lt;int&gt; s1{9,8,1,2,3,4,5,5,5,6,7,7 };<br>这种初始化方法会报错，难道是版本不同了么？<br>只能用.insert()</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4075119,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4075119,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4075200" class="layer">#10楼</a><a name="4075200" id="comment_anchor_4075200"></a>[<span class="louzhu">楼主</span>]<span id="comment-maxId" style="display:none;">4075200</span><span id="comment-maxDate" style="display:none;">2018/9/25 8:32:46</span>  <span class="comment_date">2018-09-25 08:32</span> <a id="a_comment_author_4075200" href="https://www.cnblogs.com/skyfsm/" target="_blank">Madcola</a> <a href="http://msg.cnblogs.com/send/Madcola" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4075200" class="blog_comment_body"><a href="https://www.cnblogs.com/skyfsm/p/6934246.html#4075119" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,4075119);">@</a>
+eddiechiu<br>C++11支持这样的初始化方式</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4075200,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4075200,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_4075200_avatar" style="display:none;">http://pic.cnblogs.com/face/1093303/20170109193150.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/skyfsm/p/6934246.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/skyfsm/p/6934246.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-华为云&#39;)">【推荐】华为云11.11普惠季 血拼风暴 一促即发</a><br><a href="https://group.cnblogs.com/topic/80253.html" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-拼团&#39;)">【拼团】腾讯云服务器拼团活动又双叒叕来了！</a><br><a href="https://cloud.tencent.com/act/domainsales?fromSource=gwzcw.1351351.1351351.1351351" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-域名&#39;)">【推荐】腾讯云新注册用户域名抢购1元起</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/special/amd?fromSource=gwzcw.1351353.1351353.1351353" target="_blank"><img width="300" height="250" src="./00_files/24442-20181008121639348-1607410764.jpg" alt="腾讯云1008" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/609703/" target="_blank">金融服务创企罗宾汉收入来源引争议：或造成利益冲突</a><br> ·  <a href="https://news.cnblogs.com/n/609701/" target="_blank">长春长生被罚91亿 吊销《药品生产许可证》</a><br> ·  <a href="https://news.cnblogs.com/n/609700/" target="_blank">曾获迪士尼投资的VR创企Jaunt XR将裁员：未来专注AR</a><br> ·  <a href="https://news.cnblogs.com/n/609699/" target="_blank">网易云音乐获新一轮融资 投资方表示长期看好</a><br> ·  <a href="https://news.cnblogs.com/n/609698/" target="_blank">科技股收盘|美三大股指涨幅创半年多新高 科技股集体大涨</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<script async="async" src="./00_files/gpt.js.下載"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CPTPsuadjN4CFUzRlgodbCIMhA">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-load-complete="true" src="./00_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="https://kb.cnblogs.com/page/606682/" target="_blank">为什么说 Java 程序员必须掌握 Spring Boot ？</a><br> ·  <a href="https://kb.cnblogs.com/page/606645/" target="_blank">在学习中，有一个比掌握知识更重要的能力</a><br> ·  <a href="https://kb.cnblogs.com/page/603663/" target="_blank">如何招到一个靠谱的程序员</a><br> ·  <a href="https://kb.cnblogs.com/page/573614/" target="_blank">一个故事看懂“区块链”</a><br> ·  <a href="https://kb.cnblogs.com/page/603697/" target="_blank">被踢出去的用户</a><br></div>» <a href="https://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/skyfsm/">Madcola</a><br>园龄：<a href="https://home.cnblogs.com/u/skyfsm/" title="入园时间：2017-01-09">1年9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/skyfsm/followers/">652</a><br>关注：<a href="https://home.cnblogs.com/u/skyfsm/followees/">26</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;0615e00a-49d6-e611-845c-ac853d9f53ac&#39;)">+加关注</a></div><script>getFollowStatus('0615e00a-49d6-e611-845c-ac853d9f53ac')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/09/01&#39;);return false;">&lt;</a></td><td align="center">2018年10月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/11/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">30</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center"><a href="https://www.cnblogs.com/skyfsm/archive/2018/10/12.html"><u>12</u></a></td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalTodayDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/skyfsm/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/skyfsm/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/skyfsm/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/skyfsm/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/skyfsm/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(67)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/skyfsm/category/1012247.html">C++(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/skyfsm/category/1304109.html">CUDA(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/skyfsm/category/935270.html">Linux编程(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/skyfsm/category/1123384.html">OCR系列(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/skyfsm/category/1000207.html">opencv探索(28)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/skyfsm/category/1074227.html">STL(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/skyfsm/category/935280.html">波折岁月(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/skyfsm/category/1309644.html">工具技巧(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/skyfsm/category/993807.html">机器学习之旅(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/skyfsm/category/1164360.html">深度学习(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/skyfsm/category/1085234.html">数字图像处理(3)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(67)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/skyfsm/archive/2018/10.html">2018年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/skyfsm/archive/2018/09.html">2018年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/skyfsm/archive/2018/05.html">2018年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/skyfsm/archive/2018/04.html">2018年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/skyfsm/archive/2018/02.html">2018年2月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/skyfsm/archive/2018/01.html">2018年1月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/skyfsm/archive/2017/12.html">2017年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/skyfsm/archive/2017/11.html">2017年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/skyfsm/archive/2017/10.html">2017年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/skyfsm/archive/2017/09.html">2017年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/skyfsm/archive/2017/08.html">2017年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/skyfsm/archive/2017/07.html">2017年7月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/skyfsm/archive/2017/06.html">2017年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/skyfsm/archive/2017/05.html">2017年5月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/skyfsm/archive/2017/04.html">2017年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/skyfsm/archive/2017/02.html">2017年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/skyfsm/archive/2017/01.html">2017年1月 (6)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	171465
+	</li>
+	<li class="liRank">
+		排名 -	1796
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/skyfsm/p/8451834.html#4088023">1. Re:CNN网络架构演进：从LeNet到DenseNet</a></li>
+        <li class="recent_comment_body">有感而发，点赞点赞</li>
+        <li class="recent_comment_author">--琅琊阁主</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/skyfsm/p/8330882.html#4086816">2. Re:【Keras】基于SegNet和U-Net的遥感图像语义分割</a></li>
+        <li class="recent_comment_body">@贝大人我也出现这样的问题，如果自己训练的样本，label = 1的话，好像就没有问题...</li>
+        <li class="recent_comment_author">--ayj12345</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/skyfsm/p/8330882.html#4083847">3. Re:【Keras】基于SegNet和U-Net的遥感图像语义分割</a></li>
+        <li class="recent_comment_body">您好，我在运行您的seget_predict.py时（仅修改路径）显示了很多invalid size!然后得到的pre图像是零值图像，请问是哪里出了问题呢？</li>
+        <li class="recent_comment_author">--httcwr</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/skyfsm/p/8029668.html#4083058">4. Re:【OCR技术系列之二】文字定位与切割</a></li>
+        <li class="recent_comment_body">@Madcola嗯嗯，主要是想提升对左右结构的汉字的分割准确率。英文的字母一般宽度是相同的，单词之间有空格，这可能是英文比较好切割的原因？我想问问楼主，如果有中、英、数字结合或者字体有大有小，是否投影......</li>
+        <li class="recent_comment_author">--zyh的打怪历程</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/skyfsm/p/8029668.html#4083055">5. Re:【OCR技术系列之二】文字定位与切割</a></li>
+        <li class="recent_comment_body">@zyh的打怪历程你这个想法对于全篇都是汉字的情形会比较合适，但是一旦有中英结合以及数字的情形，效果就不好了...</li>
+        <li class="recent_comment_author">--Madcola</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/skyfsm/p/6806246.html">1. 基于深度学习的目标检测技术演进：R-CNN、Fast R-CNN、Faster R-CNN(110387)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6790245.html">2. 卷积神经网络CNN总结(72831)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/7411961.html">3. OpenCV探索之路（二十四）图像拼接和图像融合技术(41830)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/7401523.html">4. OpenCV探索之路（二十三）：特征检测和特征匹配方法汇总(23313)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6934246.html">5. C++ STL快速入门(18472)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6287787.html">6. Linux编程之UDP SOCKET全攻略(18257)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6897313.html">7. OpenCV探索之路（十四）：绘制点、直线、几何图形(17500)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6879265.html">8. OpenCV探索之路（六）：边缘检测（canny、sobel、laplacian）(16161)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6902524.html">9. OpenCV探索之路（十六）：图像矫正技术深入探讨(15273)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6894685.html">10. OpenCV探索之路（十三）：详解掩膜mask(14577)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/skyfsm/p/6672167.html">1. 两年波折路（考研、工作、考研）(97)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/7411961.html">2. OpenCV探索之路（二十四）图像拼接和图像融合技术(58)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/8443107.html">3. 【OCR技术系列之四】基于深度学习的文字识别（3755个汉字）(49)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/8330882.html">4. 【Keras】基于SegNet和U-Net的遥感图像语义分割(37)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/7324346.html">5. OpenCV探索之路（二十二）：制作一个类“全能扫描王”的简易扫描软件(19)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/skyfsm/p/6672167.html">1. 两年波折路（考研、工作、考研）(88)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6806246.html">2. 基于深度学习的目标检测技术演进：R-CNN、Fast R-CNN、Faster R-CNN(50)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/6790245.html">3. 卷积神经网络CNN总结(24)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/8330882.html">4. 【Keras】基于SegNet和U-Net的遥感图像语义分割(15)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/8443107.html">5. 【OCR技术系列之四】基于深度学习的文字识别（3755个汉字）(12)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/8088158.html">6. 读研以来的一些感想：名校好在哪里？(12)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/7868877.html">7. OpenCV探索之路（二十七）：皮肤检测技术(10)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/7411961.html">8. OpenCV探索之路（二十四）图像拼接和图像融合技术(10)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/9613894.html">9. 我在北京实习的四个月(8)</a></li><li><a href="https://www.cnblogs.com/skyfsm/p/8436820.html">10. 【OCR技术系列之三】大批量生成文字训练集(7)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 Madcola
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<iframe id="google_osd_static_frame_1077161878323" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./00_files/saved_resource(1).html"></iframe></body></html>
