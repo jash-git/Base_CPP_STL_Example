@@ -25,6 +25,7 @@ int main()
     char* s4 = (char*)malloc(20);
     gets(s4);//接收輸入字串
     printf("s4=%s\n",s4);
+    free(s4);
     //---C字串範例
 
     Pause();
