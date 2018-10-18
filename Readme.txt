@@ -16,4 +16,5 @@ GITHUB 完整資料: https://github.com/jash-git/Base_CPP_STL_Example [ 包含�
 04_CPP_STL_Stack ->純C++ Stack範例 [ 部落格對應URL: https://bit.ly/2NNRvF1 ]
 
 
-PS.部落格URL內我會註記自己覺得有用到的技巧中文敘述方便自己日後查詢
+PS.部落格URL內我會 註記 方便查詢中文敘述 + 完整程式碼 方便自己 日後查詢 + Copy/Paste使用
+
